@@ -219,7 +219,7 @@ async function setupViewer() {
   //   });
   // }
 
-  setupScrollAnimation();
+  // setupScrollAnimation();
 
   //WEBGI updates
   let needsUpdate = true;
