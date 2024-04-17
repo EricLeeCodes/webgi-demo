@@ -23,6 +23,7 @@ import {
   IViewerPlugin,
   FileTransferPlugin,
   ThinFilmLayerPlugin,
+  ScrollableCameraViewPlugin,
 
   // Color, // Import THREE.js internals
   // Texture, // Import THREE.js internals
@@ -40,6 +41,7 @@ async function setupViewer() {
     canvas: document.getElementById("webgi-canvas") as HTMLCanvasElement,
     useRgbm: false,
   });
+  const scroller = await viewer.addPlugin(ScrollableCameraViewPlugin);
 
   // Add plugins individually.
   // await viewer.addPlugin(GBufferPlugin);
@@ -81,129 +83,141 @@ async function setupViewer() {
   // Import and add a GLB file.
   await viewer.load("./assets/headphones.glb");
 
-  function setupScrollAnimation() {
-    const tl = gsap.timeline();
+  viewer.scene.activeCamera.setCameraOptions({ controlsEnabled: false });
 
-    //Second Section
-    tl.to(position, {
-      x: -0.1866269681,
-      y: -0.1660693204,
-      z: 9.9497612905,
-      scrollTrigger: {
-        trigger: ".second",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-      onUpdate,
-    }).to(target, {
-      x: -0.0002194591,
-      y: -0.0719280257,
-      z: -0.0,
-      scrollTrigger: {
-        trigger: ".second",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-    });
+  // function setupScrollAnimation() {
+  //   const tl = gsap.timeline();
 
-    //Third Section
-    tl.to(position, {
-      x: -0.060667672,
-      y: 9.8211465151,
-      z: 0.1026351212,
-      scrollTrigger: {
-        trigger: ".third",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-      onUpdate,
-    }).to(target, {
-      x: -0.0606677043,
-      y: -0.1795496708,
-      z: 0.1026251201,
-      scrollTrigger: {
-        trigger: ".third",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-    });
+  //   //Second Section
+  //   tl.to(position, {
+  //     x: -0.1866269681,
+  //     y: -0.1660693204,
+  //     z: 9.9497612905,
+  //     scrollTrigger: {
+  //       trigger: ".second",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //     onUpdate,
+  //   }).to(target, {
+  //     x: -0.0002194591,
+  //     y: -0.0719280257,
+  //     z: -0.0,
+  //     scrollTrigger: {
+  //       trigger: ".second",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //   });
 
-    //Fourth Section
-    tl.to(position, {
-      x: -0.12,
-      y: -6.77,
-      z: -0.19,
-      scrollTrigger: {
-        trigger: ".fourth",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-      onUpdate,
-    }).to(target, {
-      x: -0.122,
-      y: -0.18,
-      z: -0.19,
-      scrollTrigger: {
-        trigger: ".fourth",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-    });
+  //   //Third Section
+  //   tl.to(position, {
+  //     x: 0,
+  //     y: 10,
+  //     z: 0,
+  //     scrollTrigger: {
+  //       trigger: ".third",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //     onUpdate,
+  //   }).to(target, {
+  //     x: 0,
+  //     y: 0,
+  //     z: 0,
+  //     scrollTrigger: {
+  //       trigger: ".third",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //   });
 
-    //Fifth Section
-    tl.to(position, {
-      x: -8.7,
-      y: -5.68,
-      z: 0.58,
-      scrollTrigger: {
-        trigger: ".fifth",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-      onUpdate,
-    }).to(target, {
-      x: -0.37,
-      y: -0.18,
-      z: 1.12,
-      scrollTrigger: {
-        trigger: ".fifth",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-    });
+  //   //Fourth Section
+  //   tl.to(position, {
+  //     x: -0.12,
+  //     y: -6.77,
+  //     z: -0.19,
+  //     scrollTrigger: {
+  //       trigger: ".fourth",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //     onUpdate,
+  //   }).to(target, {
+  //     x: -0.122,
+  //     y: -0.18,
+  //     z: -0.19,
+  //     scrollTrigger: {
+  //       trigger: ".fourth",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //   });
 
-    //Sixth Section
-    tl.to(position, {
-      x: -8.269,
-      y: 1.112,
-      z: 7.129,
-      scrollTrigger: {
-        trigger: ".sixth",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-      onUpdate,
-    }).to(target, {
-      x: -0.209,
-      y: 0.0125,
-      z: 1.311,
-      scrollTrigger: {
-        trigger: ".sixth",
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-    });
-  }
+  //   //Fifth Section
+  //   tl.to(position, {
+  //     x: -8.7,
+  //     y: -5.68,
+  //     z: 0.58,
+  //     scrollTrigger: {
+  //       trigger: ".fifth",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //     onUpdate,
+  //   }).to(target, {
+  //     x: -0.37,
+  //     y: -0.18,
+  //     z: 1.12,
+  //     scrollTrigger: {
+  //       trigger: ".fifth",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //   });
+
+  //   //Sixth Section
+  //   tl.to(position, {
+  //     x: -8.269,
+  //     y: 1.112,
+  //     z: 7.129,
+  //     scrollTrigger: {
+  //       trigger: ".sixth",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //     onUpdate,
+  //   }).to(target, {
+  //     x: -0.209,
+  //     y: 0.0125,
+  //     z: 1.311,
+  //     scrollTrigger: {
+  //       trigger: ".sixth",
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //     ease: "linear",
+  //   });
+  // }
 
   setupScrollAnimation();
 
@@ -217,8 +231,7 @@ async function setupViewer() {
 
   viewer.addEventListener("preFrame", () => {
     if (needsUpdate) {
-      camera.positionUpdated(true);
-      camera.targetUpdated(true);
+      camera.positionTargetUpdated(true);
       needsUpdate = false;
     }
   });
